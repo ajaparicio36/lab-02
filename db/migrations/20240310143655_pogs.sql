@@ -1,0 +1,11 @@
+-- migrate:up
+CREATE TABLE Pogs(
+	id SERIAL PRIMARY KEY NOT NULL,
+	name VARCHAR NOT NULL UNIQUE,
+	ticker_symbol VARCHAR NOT NULL UNIQUE,
+	price INTEGER NOT NULL,
+	color VARCHAR NOT NULL
+)
+
+-- migrate:down
+DROP TABLE Pogs
