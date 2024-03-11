@@ -6,13 +6,13 @@ export const getPogs = async (app: Express, connection: Pool) => {
     .get("/pogs", async (req: Request, res: Response) => {
       try {
         const getPogs = `
-        SELECT p.id, p.name, p.ticker_symbol AS symbol, p.price, p.color FROM public.Pogs as p
+        SELECT p.id, p.name, p.ticker_symbol AS symbol, p.price, p.color FROM public.Pogs as p ORDER BY p.id
         `;
         const { rows } = await connection.query(getPogs);
         if (rows.length > 0) {
           res.status(200).json(rows);
         } else {
-          res.status(404).send("No pogs found!");
+          throw new Error("Did not match any pogs!");
         }
       } catch (err) {
         console.log(err);
@@ -29,11 +29,11 @@ export const getPogs = async (app: Express, connection: Pool) => {
         if (rows.length > 0) {
           res.status(200).json(rows);
         } else {
-          res.status(404).send("No pogs match!");
+          throw new Error("Did not match any pogs!");
         }
       } catch (err) {
         console.log(err);
-        res.status(400);
+        res.status(404);
       }
     });
 };

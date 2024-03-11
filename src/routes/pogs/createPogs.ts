@@ -1,33 +1,19 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response, NextFunction } from "express";
 import { Pool } from "pg";
 
 export const createPogs = async (app: Express, connection: Pool) => {
   app.post("/pogs", async (req: Request, res: Response) => {
-    const { name, ticker_symbol, price, color } = req.body;
+    const { name, symbol, price, color } = req.body;
     try {
       const createPog = `
                 INSERT INTO Pogs(name, ticker_symbol, price, color)
                 VALUES ($1, $2, $3, $4)
                 `;
-      const result = connection.query(createPog, [
-        name,
-        ticker_symbol,
-        price,
-        color,
-      ]);
-      app.use(
-        (err: Error, req: Request, res: Response, next: NextFunction): void => {
-          if (err) {
-            res.status(422).send("Unable to create!");
-          } else {
-            next();
-          }
-        }
-      );
-      res.status(201);
+      const result = connection.query(createPog, [name, symbol, price, color]);
+      res.status(201).json(result);
     } catch (err) {
       console.log(err);
-      res.status(400);
+      res.status(422);
     }
   });
 
@@ -42,7 +28,7 @@ export const createPogs = async (app: Express, connection: Pool) => {
       app.use(
         (err: Error, req: Request, res: Response, next: NextFunction): void => {
           if (err) {
-            res.status(404).send("Cannot delete!");
+            throw new Error("Unable to create pogs");
           } else {
             next();
           }
@@ -51,7 +37,7 @@ export const createPogs = async (app: Express, connection: Pool) => {
       res.status(200);
     } catch (err) {
       console.log(err);
-      res.status(400);
+      res.status(404);
     }
   });
 };
