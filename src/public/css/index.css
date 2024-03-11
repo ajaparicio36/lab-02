@@ -1,3 +1,50 @@
-h1 {
-    color: 'blue';
+.title {
+    margin-bottom: 2rem;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.2rem;
+}
+
+.pog {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    margin-bottom: 2rem;
+}
+
+.pog-title {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    gap: 1rem;
+    align-items: center;
+}
+
+.pog-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 3rem;
+    gap: 1rem;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.message {
+    display: flex;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    margin-left: 3rem;
 }

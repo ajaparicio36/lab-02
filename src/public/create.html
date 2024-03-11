@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/create.css" />
+  </head>
+  <body>
+    <form id="myForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="symbol">Symbol:</label>
+      <input type="text" id="symbol" name="symbol" required />
+
+      <label for="color">Color:</label>
+      <input type="text" id="color" name="color" required />
+
+      <label for="price">Price:</label>
+      <input type="number" id="price" name="price" required />
+
+      <button type="submit">Create</button>
+    </form>
+    <script>
+      const submitPogs = async (name, symbol, color, price) => {
+        const res = await fetch(`http://localhost:3000/pogs`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            symbol,
+            color,
+            price,
+          }),
+        });
+        const data = await res.json();
+      };
+
+      window.onload = () => {
+        const form = document.getElementById("myForm");
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          let name = event.target.name.value;
+          let symbol = event.target.symbol.value;
+          let color = event.target.color.value;
+          let price = event.target.price.value;
+
+          submitPogs(name, symbol, color, price);
+          setTimeout(() => {
+            window.location.href = "http://localhost:3000/";
+          }, 1000);
+        });
+      };
+    </script>
+  </body>
+</html>

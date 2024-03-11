@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/edit.css" />
+  </head>
+  <body>
+    <form id="myForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="symbol">Symbol:</label>
+      <input type="text" id="symbol" name="symbol" required />
+
+      <label for="color">Color:</label>
+      <input type="text" id="color" name="color" required />
+
+      <label for="price">Price:</label>
+      <input type="number" id="price" name="price" required />
+
+      <button type="submit">Edit</button>
+    </form>
+    <script>
+      window.onload = async () => {
+        let urlString = window.location.href;
+        console.log(window.location.href);
+        let paramString = urlString.split("?")[1];
+        let queryString = new URLSearchParams(paramString);
+        let id = Array.from(queryString.values())[0];
+
+        const res = await fetch(`http://localhost:3000/pogs/${id}`);
+        const data = await res.json();
+        const pog = data[0];
+
+        const nameField = document.getElementById("name");
+        nameField.value = pog.name;
+        const symbolField = document.getElementById("symbol");
+        symbolField.value = pog.symbol;
+        const colorField = document.getElementById("color");
+        colorField.value = pog.color;
+        const priceField = document.getElementById("price");
+        priceField.value = pog.price;
+
+        const form = document.getElementById("myForm");
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          let name = event.target.name.value;
+          let symbol = event.target.symbol.value;
+          let color = event.target.color.value;
+          let price = event.target.price.value;
+
+          console.log(name + symbol + color + price);
+
+          const res = await fetch(`http://localhost:3000/pogs/${id}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name,
+              symbol,
+              color,
+              price,
+            }),
+          });
+          const data = await res.json();
+          window.location.href = "http://localhost:3000/";
+        });
+      };
+    </script>
+  </body>
+</html>

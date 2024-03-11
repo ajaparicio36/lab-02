@@ -9,7 +9,62 @@
     <link rel="stylesheet" href="css/index.css" />
   </head>
   <body>
-    <h1>Hello</h1>
-    <script src="" async defer></script>
+    <div>
+      <h1 class="title">Pogs</h1>
+      <button onclick="createPogs()">Create Pogs</button>
+      <div class="messages" id="messages"></div>
+    </div>
+    <script>
+      const fetchPogs = async () => {
+        const res = await fetch("http://localhost:3000/pogs");
+        const data = await res.json();
+        const messagesDiv = document.getElementById("messages");
+        let innerHtml = "";
+        for (const message of data) {
+          innerHtml += `
+          <div id="${message.id}" class="pog">
+            <div class="pog-title">
+              <h1 style="color: ${message.color};">●</h1>
+              <h2>${message.name}</h2>
+            </div>
+            <div class="pog-info">
+              <div>Symbol: ${message.symbol}</div>
+              <div>Price: ${message.price}</div>
+            </div>
+            <div class="buttons">
+              <button onclick="editButton(${message.id})">Edit</button>
+              <button onclick="deleteButton(${message.id})">Delete</button>
+            </div>
+          </div>
+          `;
+        }
+        messagesDiv.innerHTML = innerHtml;
+      };
+
+      const createPogs = () => {
+        window.location.href = "http://localhost:3000/create.html";
+      };
+
+      const editButton = (id) => {
+        window.location.href = `http://localhost:3000/edit.html?id=${id}`;
+      };
+
+      const deleteButton = async (id) => {
+        const res = await fetch(`http://localhost:3000/pogs/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id,
+          }),
+        });
+        window.location.href = "http://localhost:3000/";
+      };
+
+      window.onload = () => {
+        fetchPogs();
+      };
+    </script>
   </body>
 </html>
