@@ -29,10 +29,9 @@ export const getPogs = async (app: Express, connection: Pool) => {
         if (rows.length > 0) {
           res.status(200).json(rows);
         } else {
-          throw new Error("Did not match any pogs!");
+          throw new Error();
         }
       } catch (err) {
-        console.log(err);
         res.status(404);
       }
     });

@@ -3,10 +3,10 @@ import dotenv from "dotenv";
 import path from "path";
 import bodyParser from "body-parser";
 
-import { pool } from "./utils/pool";
-import { getPogs } from "./routes/pogs/getPogs";
-import { createPogs } from "./routes/pogs/createPogs";
-import { editPogs } from "./routes/pogs/editPogs";
+import { pool } from "../utils/pool";
+import { getPogs } from "../routes/pogs/getPogs";
+import { createPogs } from "../routes/pogs/createPogs";
+import { editPogs } from "../routes/pogs/editPogs";
 
 export const startServer = async () => {
   dotenv.config();
@@ -24,12 +24,3 @@ export const startServer = async () => {
 
   return app;
 };
-
-const listenToServer = async () => {
-  const app = await startServer();
-  app.listen(3000, () => {
-    console.log("Server started at http://localhost:3000");
-  });
-};
-
-listenToServer;

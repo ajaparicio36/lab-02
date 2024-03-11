@@ -10,7 +10,7 @@ export const createPogs = async (app: Express, connection: Pool) => {
                 VALUES ($1, $2, $3, $4)
                 `;
       const result = connection.query(createPog, [name, symbol, price, color]);
-      res.status(201).json(result);
+      res.status(201);
     } catch (err) {
       console.log(err);
       res.status(422);
@@ -28,7 +28,7 @@ export const createPogs = async (app: Express, connection: Pool) => {
       app.use(
         (err: Error, req: Request, res: Response, next: NextFunction): void => {
           if (err) {
-            throw new Error("Unable to create pogs");
+            throw new Error();
           } else {
             next();
           }

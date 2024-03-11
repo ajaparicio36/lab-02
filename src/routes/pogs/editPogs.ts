@@ -12,7 +12,7 @@ export const editPogs = async (app: Express, connection: Pool) => {
 
     const intId = parseInt(id, 10);
     if (isNaN(intId)) {
-      return res.status(400).send("Invalid ID");
+      return res.status(400);
     }
 
     if (name.length === 0) updatedName = null;
@@ -47,10 +47,9 @@ export const editPogs = async (app: Express, connection: Pool) => {
       if (rows.length > 0) {
         res.status(200).json(rows[0]);
       } else {
-        throw new Error("Unable to edit pogs!");
+        throw new Error();
       }
     } catch (err) {
-      console.log(err);
       res.status(404);
     }
   });
