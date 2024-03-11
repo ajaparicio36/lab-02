@@ -6,6 +6,8 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "@swc/jest",
   },
+  verbose: true,
+  forceExit: true,
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
